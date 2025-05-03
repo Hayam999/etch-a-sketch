@@ -1,46 +1,46 @@
-const container = document.querySelector("#container");
+const container = document.getElementById("container");
 const adjustGridBtn = document.querySelector("#adjust-grid");
 adjustGridBtn.addEventListener("click", () => makeGrid());
 
-
 function makeGrid() {
-    rows = getNum("Enter Number of Rows");
-    columns = getNum("Enter Number of Columns");
-    container.innerHTML= "";
-    
-    for (i = 1; i <= rows; i++) {
-        const row = document.createElement("div");
-        row.className = "rows";
-        row.id = "row" + i;
-        container.appendChild(row);
-        for (j = 1; j <= columns; j++) {
-            const gridElement = document.createElement("div");
-            gridElement.className = "gridElements";
-            row.appendChild(gridElement);
-        }
+  let rows = getNum("Enter Number of Rows");
+  let columns = getNum("Enter Number of Columns");
+  container.innerHTML = "";
+
+  for (let i = 1; i <= rows; i++) {
+    const row = document.createElement("div");
+    row.className = "rows";
+    row.id = "row" + i;
+    container.appendChild(row);
+    for (let j = 1; j <= columns; j++) {
+      const gridElement = document.createElement("div");
+      gridElement.id = "square" + i + "," + j;
+      gridElement.className = "gridElements";
+      row.appendChild(gridElement);
     }
+  }
 }
 
 function getNum(message) {
-    num = prompt(message);
-    if (!Number.isInteger(Number(num))) {
-        num = getNum("Invalid Input please Enter a Number");
-    }
-    else if (num > 100) {
-        num = getNum("Please Enter a number smaller than or equal to 100");
-    }
-    return num;
+  let num = prompt(message);
+  if (!Number.isInteger(Number(num))) {
+    num = getNum("Invalid Input please Enter a Number");
+  } else if (num > 100) {
+    num = getNum("Please Enter a number smaller than or equal to 100");
+  }
+  return num;
 }
 
-const gridElements = document.getElementsByClassName(".gridElements");
+container.addEventListener("mouseover", (e) => {
+  if (e.target.classList.contains("gridElements")) {
+    const element = document.getElementById(e.target.id);
+    element.style.backgroundColor = "#2A9D8F";
+  }
+});
 
-function changeColor(element) {
-    const currentOpacity = parseFloat(window.getComputedStyle(element).opacity) || 0;
-    element.style.backgroundColor = "#ffc300";
-    element.style.opacity = Math.min(currentOpacity + 0.1, 1);}
-
-    Array.from(gridElements).forEach(element => {
-        element.addEventListener("mouseenter",
-            () => changeColor(element));    
-})
-
+container.addEventListener("mousedown", (e) => {
+  if (e.target.classList.contains("gridElements")) {
+    const element = document.getElementById(e.target.id);
+    element.style.backgroundColor = "#ffff";
+  }
+});
